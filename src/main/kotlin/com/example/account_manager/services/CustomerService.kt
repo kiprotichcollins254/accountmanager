@@ -1,10 +1,15 @@
+package com.example.account_manager.services
+
+import com.example.account_manager.repository.CustomerRepository
+import com.example.account_manager.models.Customer
+
 @Service
 class CustomerService(private val CustomerRepository: CustomerRepository) {
 
     fun getAllCustomers(): List<Customer> = CustomerRepository.findAll()
 
     fun getCustomersById(CustomerId: Long): Customer = CustomerRepository.findById(CustomerId)
-            .orElseThrow { CustomerNotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found") }
+            .orElseThrow { NotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found") }
 
     fun createCustomer(Customer: Customer): Customer = CustomerRepository.save(Customer)
 
@@ -13,17 +18,18 @@ class CustomerService(private val CustomerRepository: CustomerRepository) {
             CustomerRepository.save(
                     Customer(
                             id = Customer.id,
-                            full_names = Customer.fullNames,
+                            fullNames = Customer.fullNames,
+                            accNo = Customer.accNo,
                             emailAddress = Customer.emailAddress,
                             avalBal = Customer.avalBal
                     )
             )
-        } else throw CustomerNotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found")
+        } else throw NotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found")
     }
 
     fun deleteCustomersById(CustomerId: Long) {
         return if (CustomerRepository.existsById(CustomerId)) {
             CustomerRepository.deleteById(CustomerId)
-        } else throw CustomerNotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found")
+        } else throw NotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found")
     }
 }

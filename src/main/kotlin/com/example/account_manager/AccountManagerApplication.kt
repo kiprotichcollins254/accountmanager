@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.boot.runApplication
+import com.example.account_manager.services.CustomerService
+import com.example.account_manager.models.Customer
 
 @SpringBootApplication
 class AccountManagerApplication
