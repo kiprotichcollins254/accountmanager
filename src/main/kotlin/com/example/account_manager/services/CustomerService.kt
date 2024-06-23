@@ -2,20 +2,28 @@ package com.example.account_manager.services
 
 import com.example.account_manager.repository.CustomerRepository
 import com.example.account_manager.models.Customer
+import org.springframework.data.crossstore.ChangeSetPersister
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.*
+import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
-class CustomerService(private val CustomerRepository: CustomerRepository) {
+class CustomerService(val db: CustomerRepository) {
 
-    fun getAllCustomers(): List<Customer> = CustomerRepository.findAll()
+    fun getAllCustomers(): List<Customer> = db.findAll().toList()
 
-    fun getCustomersById(CustomerId: Long): Customer = CustomerRepository.findById(CustomerId)
-            .orElseThrow { NotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found") }
+    fun getCustomersById(CustomerId: Long): Customer = db.findById(CustomerId)
+            .orElseThrow {
+                ChangeSetPersister.NotFoundException(
+                )
+            }
 
-    fun createCustomer(Customer: Customer): Customer = CustomerRepository.save(Customer)
+    fun createCustomer(Customer: Customer): Customer = db.save(Customer)
 
     fun updateCustomerById(CustomerId: Long, Customer: Customer): Customer {
-        return if (CustomerRepository.existsById(CustomerId)) {
-            CustomerRepository.save(
+        return if (db.existsById(CustomerId)) {
+            db.save(
                     Customer(
                             id = Customer.id,
                             fullNames = Customer.fullNames,
@@ -24,12 +32,15 @@ class CustomerService(private val CustomerRepository: CustomerRepository) {
                             avalBal = Customer.avalBal
                     )
             )
-        } else throw NotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found")
+        } else throw ChangeSetPersister.NotFoundException()
     }
 
     fun deleteCustomersById(CustomerId: Long) {
-        return if (CustomerRepository.existsById(CustomerId)) {
-            CustomerRepository.deleteById(CustomerId)
-        } else throw NotFoundException(HttpStatus.NOT_FOUND, "No matching Customer was found")
+        return if (db.existsById(CustomerId)) {
+            db.deleteById(CustomerId)
+        } else throw ChangeSetPersister.NotFoundException()
     }
+
+    fun <T : Any> Optional<out T>.toList(): List<T> =
+        if (isPresent) listOf(get()) else emptyList()
 }

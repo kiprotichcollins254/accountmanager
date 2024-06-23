@@ -1,13 +1,10 @@
 package com.example.account_manager.models
 
+import jakarta.persistence.*
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.Entity
-import org.springframework.data.annotation.GeneratedValue
-import org.springframework.data.annotation.GenerationType
-import org.springframework.data.annotation.Column
-import org.springframework.data.relational.core.mapping.Table
 
-@Entity
+
+//@Entity
 @Table(name = "customer")
 
 data class Customer (

@@ -1,7 +1,8 @@
 package com.example.account_manager.repository
 
-import org.springframework.data.repository.Repository
-import org.springframework.data.repository.JpaRepository
+import com.example.account_manager.models.Customer
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
 @Repository
-interface CustomerRepository : JpaRepository<Customer, Long>
+interface CustomerRepository : CrudRepository<Customer, Long>
