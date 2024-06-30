@@ -2,6 +2,7 @@ package com.example.account_manager
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import com.example.account_manager.services.CustomerService
 import com.example.account_manager.models.Customer
+import org.springframework.web.bind.annotation.RequestMapping
 
 @SpringBootApplication
+@ComponentScan("com.example.account_manager")
 class AccountManagerApplication
 
 fun main(args: Array<String>) {
@@ -19,6 +22,7 @@ fun main(args: Array<String>) {
 }
 
 @RestController
+@RequestMapping("/api")
 class CustomerController(val customerService: CustomerService) {
 
     @GetMapping("/Customers")

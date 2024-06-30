@@ -1,0 +1,15 @@
+# PostgreSQL database connection
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/banking_app
+    username: postgres
+    password: kipbz123
+
+  # Hibernate configuration
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true

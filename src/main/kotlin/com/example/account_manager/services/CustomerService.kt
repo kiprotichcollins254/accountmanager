@@ -2,6 +2,7 @@ package com.example.account_manager.services
 
 import com.example.account_manager.repository.CustomerRepository
 import com.example.account_manager.models.Customer
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class CustomerService(val db: CustomerRepository) {
+class CustomerService @Autowired constructor(private val  db: CustomerRepository){
+
+
 
     fun getAllCustomers(): List<Customer> = db.findAll().toList()
 

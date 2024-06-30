@@ -4,8 +4,8 @@ import jakarta.persistence.*
 import org.springframework.data.annotation.Id
 
 
-//@Entity
-@Table(name = "customer")
+@Entity
+//@Table(name = "customer")
 
 data class Customer (
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
